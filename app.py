@@ -13,19 +13,9 @@ def home() -> Any:
 
 @app.route('/soccer')
 def soccer() -> Any:
-    """_summary_
-
-    Returns:
-        str: _description_
-    """
     return render_template('soccer.html')
 
 
 @app.route('/baseball')
 def baseball() -> Any:
-    """_summary_
-
-    Returns:
-        str: _description_
-    """
     return render_template('baseball.html')
