@@ -1,7 +1,7 @@
 import requests
 
 url = "https://tank01-mlb-live-in-game-real-time-statistics.p.rapidapi.com"
-#/getMLBTeams"
+# /getMLBTeams"
 
 
 querystring = {"teamStats": "false", "topPerformers": "false"}
