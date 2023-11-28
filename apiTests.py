@@ -1,23 +1,16 @@
-import requests
 
-url = "https://tank01-mlb-live-in-game-real-time-statistics.p.rapidapi.com"
-# /getMLBTeams"
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
+uri = "mongodb+srv://cepawlowski:I9workDreWc7LOF4@cluster0.0uqoz5p.mongodb.net/?retryWrites=true&w=majority"
 
-querystring = {"teamStats": "false", "topPerformers": "false"}
+# Create a new client and connect to the server
+client = MongoClient(uri, server_api=ServerApi('1'))
 
-headers = {
-    "X-RapidAPI-Key": """My API Key probably not important to hide
-                         this but oh well""",
-    "X-RapidAPI-Host": """tank01-mlb-live-in-game-real-time-statistics
-                        .p.rapidapi.com"""
-}
-
-response = requests.get(url, headers=headers, params=querystring)
-
-res = response.json()['body']
-
-for i in range(0, len(res)):
-    print(res[i]['teamCity'])
-    print(res[i]['teamName'])
-    print(res[i]['teamID'])
+# Send a ping to confirm a successful connection
+#I9workDreWc7LOF4
+try:
+    client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
