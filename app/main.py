@@ -10,6 +10,7 @@ import http.client
 import json
 
 
+
 app = Flask(__name__)
 
 
@@ -69,6 +70,7 @@ def basketball() -> Any:
 @app.route('/baseball')
 def baseball() -> Any:
 
+    """
     conn = http.client.HTTPSConnection("v1.baseball.api-sports.io")
     payload = ''
     headers = {
@@ -76,7 +78,6 @@ def baseball() -> Any:
         'x-rapidapi-host': 'v1.baseball.api-sports.io'
     }
 
-    """
     for i in range(11, 20):
         conn.request("GET", "/teams?id="+str(i), payload, headers)
         res = conn.getresponse()
@@ -86,10 +87,21 @@ def baseball() -> Any:
         dat = json.loads(j)
         print(dat["response"][0]["name"])
 
-        db_api.insert_one({"Name": dat["response"][0]["name"], "ID": dat["response"][0]["id"]})
+        db_api.insert_one({"Name": dat["response"][0]["name"],
+        "ID": dat["response"][0]["id"]})
 
     """
-    return render_template('baseball.html')
+
+    res = db_api.find_all({})
+
+    
+
+    context = {
+        "title": "Baseball",
+        "content": res["documents"]
+    }
+
+    return render_template('baseball.html', **context)
 
 
 if __name__ == "__main__":
