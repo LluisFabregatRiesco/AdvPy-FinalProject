@@ -4,14 +4,13 @@ This is the main file of the Flask application.
 
 from typing import Any
 import os
+# import http.client
 from flask import Flask, render_template
 # from flask import request
 # from . import forms
 from . import db_api
 
 app = Flask(__name__)
-app.secret_key = 'b720367a8089e1e1b15ba89252ce07'
-app.secret_key += 'b8393320dad043d609c01366a6cfe7946e'
 
 
 @app.route('/')
@@ -30,16 +29,30 @@ def home() -> Any:
 
 @app.route('/baseball')
 def baseball() -> Any:
-    """Recipes page of the application.
-
-    Returns:
-        str: HTML page using Jinja2 template.
     """
-    documents = db_api.find_all({})
+    conn = http.client.HTTPSConnection("v1.baseball.api-sports.io")
+    payload = ''
+    headers = {
+        'x-rapidapi-key': 'abcbccc15405752f45c03e02088526ca',
+        'x-rapidapi-host': 'v1.baseball.api-sports.io'
+    }
 
+    for i in range(11, 20):
+        conn.request("GET", "/teams?id="+str(i), payload, headers)
+        res = conn.getresponse()
+        data = res.read()
+        j = data.decode("utf-8").replace("'", '"')
+
+        dat = json.loads(j)
+        print(dat["response"][0]["name"])
+
+        db_api.insert_one({"Name": dat["response"][0]["name"],
+        "ID": dat["response"][0]["id"]})
+    """
+    res = db_api.find_all({})
     context = {
-        'title': 'Baseball',
-        'recipes': documents['documents']
+        "title": "Baseball",
+        "content": res["documents"]
     }
     return render_template('baseball.html', **context)
 
