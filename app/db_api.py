@@ -10,13 +10,25 @@ import settings
 
 
 def create_session() -> requests.Session:
+    """Create a session with the API header.
+
+    Returns:
+        requests.Session: Session with the API header.
+    """
     session = requests.Session()
     session.headers.update(settings.HEADERS)
     return session
 
 
 def insert_one(data: Dict[str, Any]) -> 'requests.Response':
+    """Insert data into the database.
 
+    Args:
+        data (Dict[str, Any]): Data to insert.
+
+    Returns:
+        requests.Response: Response from the API.
+    """
     session = create_session()
     action = f'{settings.END_POINT}/insertOne'
     print(action)
@@ -27,6 +39,14 @@ def insert_one(data: Dict[str, Any]) -> 'requests.Response':
 
 
 def find_all(query: Dict[str, Any]) -> Any:
+    """Find all data.
+
+    Args:
+        query (Dict[str, Any]): filter for find_all API.
+
+    Returns:
+        Any: Data.
+    """
     session = create_session()
     action = f'{settings.END_POINT}/find'
     payload: Dict[str, Any] = copy.deepcopy(settings.PAYLOAD)
