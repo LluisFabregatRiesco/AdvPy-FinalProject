@@ -6,6 +6,7 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 
+
 @app.route('/')
 def home() -> Any:
     return render_template('home.html')
@@ -18,4 +19,19 @@ def soccer() -> Any:
 
 @app.route('/baseball')
 def baseball() -> Any:
+
+    db_api.insert_one({"Test": 5, "Test Again": 8})
+
+    res = db_api.find_all({})
+
+    print(res)
+
     return render_template('baseball.html')
+
+@app.route('/mma')
+def baseball() -> Any:
+    return render_template('mma.html')
+
+if __name__ == "__main__":
+    port = int(os.environ.get('PORT', 5555))
+    app.run(debug=True, host='0.0.0.0', port=port)
