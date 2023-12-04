@@ -6,6 +6,9 @@ from typing import Any
 import os
 from flask import Flask, render_template
 import db_api
+import http.client
+import json
+
 
 app = Flask(__name__)
 
@@ -66,12 +69,26 @@ def basketball() -> Any:
 @app.route('/baseball')
 def baseball() -> Any:
 
-    db_api.insert_one({"Test": 5, "Test Again": 8})
+    conn = http.client.HTTPSConnection("v1.baseball.api-sports.io")
+    payload = ''
+    headers = {
+        'x-rapidapi-key': 'abcbccc15405752f45c03e02088526ca',
+        'x-rapidapi-host': 'v1.baseball.api-sports.io'
+    }
 
-    res = db_api.find_all({})
+    """
+    for i in range(11, 20):
+        conn.request("GET", "/teams?id="+str(i), payload, headers)
+        res = conn.getresponse()
+        data = res.read()
+        j = data.decode("utf-8").replace("'", '"')
 
-    print(res)
+        dat = json.loads(j)
+        print(dat["response"][0]["name"])
 
+        db_api.insert_one({"Name": dat["response"][0]["name"], "ID": dat["response"][0]["id"]})
+
+    """
     return render_template('baseball.html')
 
 
