@@ -9,7 +9,7 @@ from flask import Flask, render_template
 from pymongo.server_api import ServerApi
 from pymongo import MongoClient
 
-from . import db_api
+import db_api
 # import http.client
 # import json
 
@@ -28,6 +28,17 @@ client = MongoClient(uri,
 db = client['sports']
 collection = db['basketball']  # MongoDB collection to store NBA standings
 
+
+path_to_certificate2 = 'lluis_cert.pem'
+uri2 = "mongodb+srv://cluster0.0uqoz5p."
+uri2 += "mongodb.net/?authSource=%24external"
+uri2 += "&authMechanism=MONGODB-X509&retryWrites=true&w=majority"
+client2 = MongoClient(uri2,
+                     tls=True,
+                     tlsCertificateKeyFile=path_to_certificate2,
+                     server_api=ServerApi('1'))
+db2 = client2['sports']
+collection2 = db2['soccer']  # MongoDB collection to store PL standings
 
 
 @app.route('/')
@@ -87,7 +98,7 @@ def baseball() -> Any:
 @app.route('/soccer')
 def soccer() -> Any:
     # Retrieve standings data from MongoDB
-    standings_data = collection.find_one()
+    standings_data = collection2.find_one()
 
     if standings_data:
         # Extract relevant information
@@ -97,6 +108,7 @@ def soccer() -> Any:
         sorted_standings = sorted(standings[0], key=lambda x: x.get("rank", 0))
 
         return render_template('soccer.html', standings=sorted_standings)
+
     return "No data available."
 
 
