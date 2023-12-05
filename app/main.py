@@ -9,7 +9,7 @@ from flask import Flask, render_template
 from pymongo.server_api import ServerApi
 from pymongo import MongoClient
 
-import db_api
+from . import db_api
 # import http.client
 # import json
 
