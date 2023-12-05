@@ -17,3 +17,9 @@ PAYLOAD = {
     "database": DB_NAME,
     "dataSource": DATA_SOURCE
 }
+
+PAYLOAD_EMPTY = {
+    "collection": None,
+    "database": DB_NAME,
+    "dataSource": DATA_SOURCE
+}
