@@ -1,6 +1,51 @@
-{% extends 'base_two_col.html' %} {% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NBA Standings</title>
+</head>
+<body>
+    <h1>Western Conference Standings</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Team Name</th>
+                <th>Conference</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in nba_standings %}
+                {% if team.conference == 'Western Conference' %}
+                    <tr>
+                        <td>{{ team.rank }}</td>
+                        <td>{{ team.team_name }}</td>
+                        <td>{{ team.conference }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
 
-<div class="col-md-8">
-  <h1>{{ title }}</h1>
-</div>
-{% endblock %}
+    <h1>Eastern Conference Standings</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Team Name</th>
+                <th>Conference</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in nba_standings %}
+                {% if team.conference == 'Eastern Conference' %}
+                    <tr>
+                        <td>{{ team.rank }}</td>
+                        <td>{{ team.team_name }}</td>
+                        <td>{{ team.conference }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

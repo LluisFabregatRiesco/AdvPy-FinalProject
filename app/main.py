@@ -5,12 +5,27 @@ This is the main file of the Flask application.
 from typing import Any
 import os
 from flask import Flask, render_template
+<<<<<<< HEAD
+from pymongo.server_api import ServerApi
+from pymongo import MongoClient
+=======
+>>>>>>> main
 import db_api
 import http.client
 import json
 
 
 app = Flask(__name__)
+
+path_to_certificate = 'cert.pem'
+uri = "mongodb+srv://cluster0.0uqoz5p.mongodb.net/?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority"
+
+client = MongoClient(uri,
+                     tls=True,
+                     tlsCertificateKeyFile=path_to_certificate,
+                     server_api=ServerApi('1'))
+db = client['sports']
+collection = db['basketball']  # MongoDB collection to store NBA standings
 
 
 @app.route('/')
@@ -101,19 +116,10 @@ def mma() -> Any:
 
 @app.route('/basketball')
 def basketball() -> Any:
-    """Recipes page of the application.
+    # Fetch NBA standings data from MongoDB
+    nba_standings = list(collection.find({}, {'_id': 0}).sort('rank'))
 
-    Returns:
-        str: HTML page using Jinja2 template.
-    """
-    documents = db_api.find_all({})
-
-    context = {
-        'title': 'Basketball',
-        'recipes': documents['documents']
-    }
-
-    return render_template('Basketball.html', **context)
+    return render_template('basketball.html', nba_standings=nba_standings)
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5555))
