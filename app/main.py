@@ -10,14 +10,16 @@ from pymongo.server_api import ServerApi
 from pymongo import MongoClient
 
 import db_api
-import http.client
-import json
+# import http.client
+# import json
 
 
 app = Flask(__name__)
 
 path_to_certificate = 'cert.pem'
-uri = "mongodb+srv://cluster0.0uqoz5p.mongodb.net/?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority"
+uri = "mongodb+srv://cluster0.0uqoz5p."
+uri += "mongodb.net/?authSource=%24external"
+uri += "&authMechanism=MONGODB-X509&retryWrites=true&w=majority"
 
 client = MongoClient(uri,
                      tls=True,
@@ -43,7 +45,6 @@ def home() -> Any:
 
 @app.route('/baseball')
 def baseball() -> Any:
-    
     """
     conn = http.client.HTTPSConnection("v1.baseball.api-sports.io")
     payload = ''
@@ -53,7 +54,8 @@ def baseball() -> Any:
     }
 
     for i in range(2, 12):
-        conn.request("GET", "/teams/statistics?league=1&season=2023&team="+str(i), payload, headers)
+        url = "/teams/statistics?league=1&season=2023&team="
+        conn.request("GET", url+str(i), payload, headers)
         res = conn.getresponse()
         data = res.read()
         j = data.decode("utf-8").replace("'", '"')
@@ -65,14 +67,14 @@ def baseball() -> Any:
         name = dat["response"]["team"]["name"]
         #print(dat["response"]["games"]["wins"]["all"]["total"])
 
-        print("The " + name + " have won " + str(wins) + " and lost " + str(losses))
+        print("The "+name+" have won "+str(wins)+" and lost "+str(losses))
 
         db_api.insert_one({"Name": name, "Wins": wins, "Losses": losses})
 
         #db_api.insert_one({"Name": dat["response"][0]["name"],
         #"ID": dat["response"][0]["id"]})
     """
-    
+
     res = db_api.find_all({})
     context = {
         "title": "Baseball",
@@ -119,6 +121,7 @@ def basketball() -> Any:
     nba_standings = list(collection.find({}, {'_id': 0}).sort('rank'))
 
     return render_template('basketball.html', nba_standings=nba_standings)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5555))
