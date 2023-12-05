@@ -13,6 +13,7 @@ from . import db_api
 app = Flask(__name__)
 
 
+
 @app.route('/')
 def home() -> Any:
     """Home page of the application.
@@ -59,18 +60,18 @@ def baseball() -> Any:
 
 @app.route('/soccer')
 def soccer() -> Any:
-    """Recipes page of the application.
+    # Retrieve standings data from MongoDB
+    standings_data = collection.find_one()
 
-    Returns:
-        str: HTML page using Jinja2 template.
-    """
-    documents = db_api.find_all({})
+    if standings_data:
+        # Extract relevant information
+        standings = standings_data.get("league", {}).get("standings", [])
 
-    context = {
-        'title': 'Soccer',
-        'recipes': documents['documents']
-    }
-    return render_template('soccer.html', **context)
+        # Sort teams by ranking
+        sorted_standings = sorted(standings[0], key=lambda x: x.get("rank", 0))
+
+        return render_template('soccer.html', standings=sorted_standings)
+    return "No data available."
 
 
 @app.route('/mma')
