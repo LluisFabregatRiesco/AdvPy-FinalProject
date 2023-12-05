@@ -8,6 +8,7 @@
           <th scope="col">#</th>
           <th scope="col">Name</th>
           <th scope="col">Points</th>
+          <th scope="col">W-D-L</th>
         </tr>
       </thead>
       <tbody>
@@ -16,6 +17,7 @@
           <th scope="row">{{ loop.index }}</th>
           <td> {{ team.team.name }} </a></td>
           <td> {{ team.points }} </a></td>
+          <td> {{ team.all.win }}-{{ team.all.draw}}-{{ team.all.lose }}</a></td>
           
         </tr>
         {% endfor %} {% endif %}

@@ -34,9 +34,9 @@ uri2 = "mongodb+srv://cluster0.0uqoz5p."
 uri2 += "mongodb.net/?authSource=%24external"
 uri2 += "&authMechanism=MONGODB-X509&retryWrites=true&w=majority"
 client2 = MongoClient(uri2,
-                     tls=True,
-                     tlsCertificateKeyFile=path_to_certificate2,
-                     server_api=ServerApi('1'))
+                      tls=True,
+                      tlsCertificateKeyFile=path_to_certificate2,
+                      server_api=ServerApi('1'))
 db2 = client2['sports']
 collection2 = db2['soccer']  # MongoDB collection to store PL standings
 
@@ -97,6 +97,11 @@ def baseball() -> Any:
 
 @app.route('/soccer')
 def soccer() -> Any:
+    """Soccer page of the application.
+
+    Returns:
+        str: HTML page using Jinja2 template.
+    """
     # Retrieve standings data from MongoDB
     standings_data = collection2.find_one()
 
@@ -114,7 +119,7 @@ def soccer() -> Any:
 
 @app.route('/mma')
 def mma() -> Any:
-    """Recipes page of the application.
+    """MMA page of the application.
 
     Returns:
         str: HTML page using Jinja2 template.
@@ -130,6 +135,11 @@ def mma() -> Any:
 
 @app.route('/basketball')
 def basketball() -> Any:
+    """Basketball page of the application.
+
+    Returns:
+        str: HTML page using Jinja2 template.
+    """
     # Fetch NBA standings data from MongoDB
     nba_standings = list(collection.find({}, {'_id': 0}).sort('rank'))
 
