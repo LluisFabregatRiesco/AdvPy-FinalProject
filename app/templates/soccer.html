@@ -1,6 +1,28 @@
-{% extends 'base_two_col.html' %} {% block content %}
-
-<div class="col-md-8">
-  <h1>{{ title }}</h1>
+{% extends 'base_two_col.html' %}
+{% block content %}
+<div class="col-md-6">
+    <h1>Premier League standings</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Points</th>
+          <th scope="col">W-D-L</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if standings %} {% for team in standings %}
+        <tr>
+          <th scope="row">{{ loop.index }}</th>
+          <td> {{ team.team.name }} </a></td>
+          <td> {{ team.points }} </a></td>
+          <td> {{ team.all.win }}-{{ team.all.draw}}-{{ team.all.lose }}</a></td>
+          
+        </tr>
+        {% endfor %} {% endif %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}
