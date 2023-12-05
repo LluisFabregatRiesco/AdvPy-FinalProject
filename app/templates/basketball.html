@@ -1,51 +1,49 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>NBA Standings</title>
-</head>
-<body>
-    <h1>Western Conference Standings</h1>
-    <table>
+{% extends 'base_two_col.html' %}
+{% block content %}
+<div class="col-md-8">
+    <h1>NBA Standings</h1>
+    <h2>Western Conference</h2>
+    <table class="table">
         <thead>
             <tr>
-                <th>Rank</th>
-                <th>Team Name</th>
-                <th>Conference</th>
+                <th scope="col">#</th>
+                <th scope="col">Team Name</th>
+                <th scope="col">Rank</th>
             </tr>
         </thead>
         <tbody>
             {% for team in nba_standings %}
                 {% if team.conference == 'Western Conference' %}
                     <tr>
-                        <td>{{ team.rank }}</td>
+                        <td>{{ loop.index }}</td>
                         <td>{{ team.team_name }}</td>
-                        <td>{{ team.conference }}</td>
+                        <td>{{ team.rank }}</td>
                     </tr>
                 {% endif %}
             {% endfor %}
         </tbody>
     </table>
 
-    <h1>Eastern Conference Standings</h1>
-    <table>
+    <h2>Eastern Conference</h2>
+    <table class="table">
         <thead>
             <tr>
-                <th>Rank</th>
-                <th>Team Name</th>
-                <th>Conference</th>
+                <th scope="col">#</th>
+                <th scope="col">Team Name</th>
+                <th scope="col">Rank</th>
             </tr>
         </thead>
         <tbody>
             {% for team in nba_standings %}
                 {% if team.conference == 'Eastern Conference' %}
                     <tr>
-                        <td>{{ team.rank }}</td>
+                        <td>{{ loop.index }}</td>
                         <td>{{ team.team_name }}</td>
-                        <td>{{ team.conference }}</td>
+                        <td>{{ team.rank }}</td>
                     </tr>
                 {% endif %}
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+</div>
+{% endblock %}
