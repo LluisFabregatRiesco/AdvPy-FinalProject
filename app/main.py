@@ -4,7 +4,7 @@ This is the main file of the Flask application.
 
 from typing import Any
 import os
-# import http.client
+import http.client
 from flask import Flask, render_template
 # from flask import request
 # from . import forms
@@ -80,12 +80,28 @@ def mma() -> Any:
     Returns:
         str: HTML page using Jinja2 template.
     """
-    # documents = db_api.find_all({})
+    # documents = db_api.find_all({}, 'mma')
 
-    db_api.insert_one({"Testing": 4}, 'mma')
+    # db_api.insert_one({"Testing": 4}, 'mma')
 
+
+    conn = http.client.HTTPSConnection("v1.formula-1.api-sports.io")
+    headers = {
+		'x-rapidapi-host': "v1.formula-1.api-sports.io",
+		'x-rapidapi-key': "293de58719e68eb4e6a3cd56865105e1"
+    }
+    payload = ''
+    conn.request("GET", "/rankings/drivers?season=2023", payload, headers)
+    res = conn.getresponse()
+    data = res.read()
+
+    temp = data.decode("utf-8").replace("'", '"')
+    season2023 = json.loads(temp)
+
+    print(season2023)
+    
     context = {
-        'title': 'MMA',
+        'title': 'Formula 1',
         # "content": res["documents"]
     }
     return render_template('mma.html', **context)
