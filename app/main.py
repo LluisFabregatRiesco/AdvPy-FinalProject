@@ -4,11 +4,11 @@ This is the main file of the Flask application.
 
 from typing import Any
 import os
-# import http.client
 from flask import Flask, render_template
-# from flask import request
-# from . import forms
-from . import db_api
+import db_api
+import http.client
+import json
+
 
 app = Flask(__name__)
 
@@ -29,6 +29,7 @@ def home() -> Any:
 
 @app.route('/baseball')
 def baseball() -> Any:
+    
     """
     conn = http.client.HTTPSConnection("v1.baseball.api-sports.io")
     payload = ''
@@ -37,18 +38,27 @@ def baseball() -> Any:
         'x-rapidapi-host': 'v1.baseball.api-sports.io'
     }
 
-    for i in range(11, 20):
-        conn.request("GET", "/teams?id="+str(i), payload, headers)
+    for i in range(2, 12):
+        conn.request("GET", "/teams/statistics?league=1&season=2023&team="+str(i), payload, headers)
         res = conn.getresponse()
         data = res.read()
         j = data.decode("utf-8").replace("'", '"')
 
         dat = json.loads(j)
-        print(dat["response"][0]["name"])
 
-        db_api.insert_one({"Name": dat["response"][0]["name"],
-        "ID": dat["response"][0]["id"]})
+        wins = dat["response"]["games"]["wins"]["all"]["total"]
+        losses = dat["response"]["games"]["loses"]["all"]["total"]
+        name = dat["response"]["team"]["name"]
+        #print(dat["response"]["games"]["wins"]["all"]["total"])
+
+        print("The " + name + " have won " + str(wins) + " and lost " + str(losses))
+
+        db_api.insert_one({"Name": name, "Wins": wins, "Losses": losses})
+
+        #db_api.insert_one({"Name": dat["response"][0]["name"],
+        #"ID": dat["response"][0]["id"]})
     """
+    
     res = db_api.find_all({})
     context = {
         "title": "Baseball",
@@ -102,8 +112,8 @@ def basketball() -> Any:
         'title': 'Basketball',
         'recipes': documents['documents']
     }
-    return render_template('basketball.html', **context)
 
+    return render_template('Basketball.html', **context)
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5555))
