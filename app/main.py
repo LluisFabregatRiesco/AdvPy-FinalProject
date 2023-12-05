@@ -5,11 +5,10 @@ This is the main file of the Flask application.
 from typing import Any
 import os
 from flask import Flask, render_template
-<<<<<<< HEAD
+
 from pymongo.server_api import ServerApi
 from pymongo import MongoClient
-=======
->>>>>>> main
+
 import db_api
 import http.client
 import json
