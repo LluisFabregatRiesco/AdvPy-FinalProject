@@ -6,7 +6,7 @@ import copy
 from typing import Dict, Any
 # from typing import List
 import requests
-from . import settings
+import settings
 
 
 def create_session() -> requests.Session:
