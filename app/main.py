@@ -9,6 +9,7 @@ from flask import Flask, render_template
 # from flask import request
 # from . import forms
 from . import db_api
+import json
 
 app = Flask(__name__)
 
@@ -73,7 +74,7 @@ def soccer() -> Any:
     return render_template('soccer.html', **context)
 
 
-@app.route('/mma')
+@app.route('/f1')
 def mma() -> Any:
     """Recipes page of the application.
 
@@ -95,16 +96,41 @@ def mma() -> Any:
     res = conn.getresponse()
     data = res.read()
 
-    temp = data.decode("utf-8").replace("'", '"')
-    season2023 = json.loads(temp)
+    j = data.decode("utf-8").replace("'", '"')
+    dat = json.loads(j)
 
-    print(season2023)
+    season2023 = dat["response"]
+
+    for driver in season2023:
+        position = {
+            "position": driver["position"],
+            "driver": {
+                "id": driver["driver"]["id"],
+                "name": driver["driver"]["name"],
+                "abbr": driver["driver"]["abbr"],
+                "number": driver["driver"]["number"]
+            },
+            "team": {
+                "id": driver["team"]["id"],
+                "name": driver["driver"]["name"],
+            },
+            "points": driver["points"],
+            "wins": driver["wins"],
+            "behind": driver["behind"],
+            "season": driver["season"]
+        }
+
+        insert_one(position, "mma")
+
+        # print(position)
+
+
     
     context = {
         'title': 'Formula 1',
         # "content": res["documents"]
     }
-    return render_template('mma.html', **context)
+    return render_template('f1.html', **context)
 
 
 @app.route('/basketball')
