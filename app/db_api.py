@@ -20,7 +20,7 @@ def create_session() -> requests.Session:
     return session
 
 
-def insert_one(data: Dict[str, Any]) -> 'requests.Response':
+def Insert_one(data: Dict[str, Any]) -> 'requests.Response':
     """Insert data into the database.
 
     Args:
@@ -38,7 +38,7 @@ def insert_one(data: Dict[str, Any]) -> 'requests.Response':
     return response
 
 
-def find_all(query: Dict[str, Any]) -> Any:
+def Find_all(query: Dict[str, Any]) -> Any:
     """Find all data.
 
     Args:

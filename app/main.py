@@ -87,7 +87,7 @@ def baseball() -> Any:
         #"ID": dat["response"][0]["id"]})
     """
 
-    res = db_api.find_all({})
+    res = db_api.Find_all({})
     context = {
         "title": "Baseball",
         "content": res["documents"]
@@ -129,9 +129,9 @@ def soccer() -> Any:
     return "No data available."
 
 
-@app.route('/mma')
+@app.route('/f1')
 def mma() -> Any:
-    """MMA page of the application.
+    """Formula 1 page of the application.
 
     Returns:
         str: HTML page using Jinja2 template.
@@ -139,10 +139,10 @@ def mma() -> Any:
     documents = db_api.find_all({}, "mma")
 
     context = {
-        'title': 'MMA',
-        'recipes': documents['documents']
+        'title': 'Formula 1',
+        'content': documents['documents']
     }
-    return render_template('mma.html', **context)
+    return render_template('f1.html', **context)
 
 
 @app.route('/basketball')

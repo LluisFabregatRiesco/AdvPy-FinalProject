@@ -1,0 +1,32 @@
+{% extends 'base_two_col.html' %} {% block content %}
+
+<div class="col-md-8">
+  <h1>{{ title }}</h1>
+  <div class="container mt-5">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Driver</th>
+                <th>Points</th>
+                <th>Wins</th>
+                <th>Behind</th>
+                <th>Season</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for document in content %}
+                <tr>
+                    <td>{{ document.position }}</td>
+                    <td>{{ document.driver.name }}</td>
+                    <td>{{ document.points }}</td>
+                    <td>{{ document.wins }}</td>
+                    <td>{{ document.behind }}</td>
+                    <td>{{ document.season }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+{% endblock %}
