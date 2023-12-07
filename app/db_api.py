@@ -21,6 +21,7 @@ def create_session() -> requests.Session:
 
 
 def Insert_one(data: Dict[str, Any]) -> 'requests.Response':
+    # type: ignore
     """Insert data into the database.
 
     Args:
@@ -54,7 +55,11 @@ def Find_all(query: Dict[str, Any]) -> Any:
     response = session.post(action, json=payload)
     return response.json()
 
-def insert_one(data: Dict[str, Any], collection_name: str) -> 'requests.Response':
+
+def insert_one(data: Dict[str, Any],
+               collection_name: str) -> 'requests.Response':
+    # type: ignore
+
     """Insert data into the database.
 
     Args:

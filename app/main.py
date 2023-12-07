@@ -112,17 +112,18 @@ def soccer() -> Any:
         # Sort teams by ranking
         sorted_standings = sorted(standings[0], key=lambda x: x.get("rank", 0))
 
-         # Extract additional information (record and goal difference)
-        team_data_with_info = [
-            {
-                "rank": team.get("rank", ""),
-                "name": team.get("team", {}).get("name", ""),
-                "points": team.get("points", ""),
-                "record": f"{team.get('all', {}).get('win', 0)}-{team.get('all', {}).get('draw', 0)}-{team.get('all', {}).get('lose', 0)}",
-                "goal_difference": team.get("goalsDiff", "")
-            }
-            for team in sorted_standings
-        ]
+        # team_data_with_info = [
+        #     {
+        #         "rank": team.get("rank", ""),
+        #         "name": team.get("team", {}).get("name", ""),
+        #         "points": team.get("points", ""),
+        #         "record": f"{team.get('all', {}).get('win', 0)}-
+        #          {team.get('all', {}).get('draw', 0)}-{team.get
+        #          ('all', {}).get('lose', 0)}",
+        #         "goal_difference": team.get("goalsDiff", "")
+        #     }
+        #     for team in sorted_standings
+        # ]
 
         return render_template('soccer.html', standings=sorted_standings)
 
